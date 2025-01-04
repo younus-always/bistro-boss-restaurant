@@ -1,7 +1,10 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import cart from "../assets/icon/cart.png";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Navber = () => {
+      const { user, logOut } = useContext(AuthContext);
 
       const menuList =
             <>
@@ -84,7 +87,13 @@ const Navber = () => {
                                                 <img src={cart} alt="shopping-cart" className="w-12 " />
                                                 <span className="absolute bg-red-500 text-slate-50 font-medium bottom-1 right-[3px] rounded-full w-4 h-4 flex items-center justify-center text-xs p-2">0</span>
                                           </button>
-                                          <Link to='/signin' className="text-slate-50 font-semibold py-2 px-3 rounded bg-blue-700">Login</Link>
+                                          <div>
+                                                {user && user?.email
+                                                      ? <button onClick={() => logOut()}
+                                                            className="text-slate-50 font-semibold py-2 px-3 rounded bg-blue-700">Logout</button>
+                                                      : <Link to='/signin' className="text-slate-50 font-semibold py-2 px-3 rounded bg-blue-700">Login</Link>
+                                                }
+                                          </div>
                                     </div>
                               </div>
                         </div>

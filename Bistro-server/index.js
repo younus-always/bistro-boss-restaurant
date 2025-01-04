@@ -38,14 +38,7 @@ async function run() {
                   res.send(result);
             })
 
-            // Menu POST Operation
-            app.post('/menu', (req, res) => {
-                  const data = req.body;
-                  const result = menu.insertOne()
-                  res.send(result);
-            });
-
-            // Menu get operation
+            // Menu's GET Operation
             app.get('/menu', async (req, res) => {
                   const result = await menu.find().toArray();
                   res.send(result);

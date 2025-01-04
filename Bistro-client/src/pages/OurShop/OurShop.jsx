@@ -17,15 +17,15 @@ const OurShop = () => {
       const initialIndex = categories.indexOf(category);
       const [tabIndex, setTabIndex] = useState(initialIndex);
       const [menu, loading] = useMenu();
-      console.log(category)
+
       // Filter by category
       const dessert = menu.filter(m => m.category === "dessert")
       const salad = menu.filter(m => m.category === "salad")
-      const offered = menu.filter(m => m.category === "offered")
       const soups = menu.filter(m => m.category === "soup")
       const pizza = menu.filter(m => m.category === "pizza")
-      const popular = menu.filter(m => m.category === "popular")
       const drinks = menu.filter(m => m.category === "drinks")
+      const popular = menu.filter(m => m.category === "popular")
+      const offered = menu.filter(m => m.category === "offered")
 
       if (loading) return <Loading />
 
@@ -33,7 +33,7 @@ const OurShop = () => {
             <>
                   <Navber />
                   <Banner />
-                  {/*  */}
+                  {/* category tab with categories card */}
                   <section className="w-11/12 max-w-7xl mx-auto py-10">
                         <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                               <TabList className="uppercase font-semibold flex items-center justify-center gap-6 text-center">
@@ -41,7 +41,7 @@ const OurShop = () => {
                                           categories.map((tab, idx) => <Tab key={idx} className="w-fit cursor-pointer">{tab}</Tab>)
                                     }
                               </TabList>
-
+                              {/* category card */}
                               <TabPanel className="pt-8">
                                     <OrderTab items={salad} />
                               </TabPanel>

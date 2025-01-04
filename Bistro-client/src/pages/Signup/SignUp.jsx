@@ -1,51 +1,132 @@
-import { FaFacebookF, FaGithub } from "react-icons/fa6";
+import { FaEye, FaFacebookF, FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import loginImg from "../../assets/others/authentication2.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useTitle from "../../hooks/useTitle";
+import { useForm } from "react-hook-form";
+import { TiWarningOutline } from "react-icons/ti";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { toast } from "react-toastify";
+import { TbFidgetSpinner } from "react-icons/tb";
+import { RiEyeCloseFill } from "react-icons/ri";
 
 const SignUp = () => {
-      useTitle("Sign up");
-      
+      useTitle("Sign Up");
+      const { setUser, signUp, updateUserProfile, googleLogin, githubLogin, loading } = useContext(AuthContext);
+      const [showPassword, setShowPassword] = useState(false);
+      const navigate = useNavigate();
+      const location = useLocation();
+      const { register, handleSubmit, reset, formState: { errors }, } = useForm();
+
       // Signup 
-      const handleSignUp = e => {
-            e.preventDefault();
-            const form = new FormData(e.target);
-            const userName = form.get('name')
-            const email = form.get('email');
-            const password = form.get('password');
-            const userInfo = { userName, email, password };
-            console.log(userInfo)
+      const onSubmit = (data) => {
+            console.log(data)
+            signUp(data.email, data.password)
+                  .then(result => {
+                        const userInfo = result.user;
+                        updateUserProfile(userInfo.diplayName, userInfo.photoURL)
+                              .then(() => {
+                                    toast.success("Registration successful! Log in now to access your account.")
+                              });
+                        setTimeout(() => {
+                              navigate('/signIn')
+                        }, 2000);
+                  })
+                  .catch(error => {
+                        console.log(error)
+                  })
+      };
+
+      // Continue with Google
+      const handleGoogle = () => {
+            googleLogin()
+                  .then(result => {
+                        const userDetails = result.user;
+                        setUser(userDetails);
+                        toast.success('Sign Up Successfull');
+                        setTimeout(() => {
+                              navigate(location?.state ? location.state : '/')
+                        }, 2000);
+                  }).catch(error => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.log(error)
+                        console.log(errorCode)
+                        console.log(errorMessage)
+                  })
+      };
+
+      // Continue with Github
+      const handleGithub = () => {
+            githubLogin()
+                  .then(result => {
+                        const userDetails = result.user;
+                        setUser(userDetails)
+                  }).catch(error => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.log(error)
+                        console.log(errorCode)
+                        console.log(errorMessage)
+                  })
       }
+
+
       return (
             <section className="w-full min-h-screen place-content-center bg-loginBg">
                   <div className="w-11/12 max-w-6xl mx-auto flex flex-col-reverse lg:flex-row lg:items-center bg-transparent border-2 border-b-8 border-r-8 border-gray-400/60">
                         <div className="lg:flex-1">
                               <div className="card w-full md:w-9/12 mx-auto">
-                                    <form onSubmit={handleSignUp} className="card-body pb-0">
+                                    <form onSubmit={handleSubmit(onSubmit)} className="card-body pb-0">
                                           <h2 className="text-center font-bold text-xl">Sign Up</h2>
+                                          {/* name */}
                                           <div className="form-control">
-                                                <label className="label">
-                                                      <span className="label-text">Name</span>
+                                                <label htmlFor="name" className="label">
+                                                      <span className="label-text">Name*</span>
                                                 </label>
-                                                <input type="text" name="name" placeholder="Enter your name" className="input input-bordered" required />
+                                                <input type="text" id="name" name="name"
+                                                      {...register("name", { required: true })} placeholder="Enter your name" className="input input-bordered" />
+                                                {errors.name && <small className="text-red-600 font-bold pt-1 flex items-center gap-2 pl-2"><TiWarningOutline />name is required</small>}
                                           </div>
+                                          {/* email */}
                                           <div className="form-control">
-                                                <label className="label">
-                                                      <span className="label-text">Email</span>
+                                                <label htmlFor="email" className="label">
+                                                      <span className="label-text">Email*</span>
                                                 </label>
-                                                <input type="email" name="email" placeholder="Enter your email" className="input input-bordered" required />
+                                                <input type="email" id="email" name="email"
+                                                      {...register("email", { required: true })} placeholder="Enter your email" className="input input-bordered" />
+                                                {errors.email && <small className="text-red-600 font-bold pt-1 flex items-center gap-2 pl-2"><TiWarningOutline />email is required</small>}
                                           </div>
-                                          <div className="form-control">
-                                                <label className="label">
-                                                      <span className="label-text">Password</span>
+                                          {/* password */}
+                                          <div className="form-control relative">
+                                                <label htmlFor="password" className="label">
+                                                      <span className="label-text">Password*</span>
                                                 </label>
-                                                <input type="password" name="password" placeholder="Enter your password" className="input input-bordered" required />
+                                                <input type={`${showPassword ? 'text' : 'password'}`} s id="password" name="password"
+                                                      {...register("password", {
+                                                            required: true,
+                                                            minLength: 6,
+                                                            maxLength: 14,
+                                                            pattern: /(?=.*[A-Z])(?=.*[!@#$ &*])(?=.*[0-9])(?=.*[a-z])/
+                                                      })} placeholder="Enter your password" className="input input-bordered" />
+                                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-[52px] ">{showPassword ? <FaEye />
+                                                      : <RiEyeCloseFill />}</button>
+
+                                                {/* Errors Message */}
+                                                {errors.password?.type === 'required' && <small className="text-red-600 font-bold pt-1 flex items-center gap-2 pl-2"><TiWarningOutline />password is required</small>}
+                                                {errors.password?.type === 'minLength' && <small className="text-red-600 font-bold pt-1 flex items-center gap-2 pl-2"><TiWarningOutline />password must be 6 characters</small>}
+                                                {errors.password?.type === 'maxLength' && <small className="text-red-600 font-bold pt-1 flex items-center gap-2 pl-2"><TiWarningOutline />password less than 14 characters</small>}
+                                                {errors.password?.type === 'pattern' && <small className="text-red-600 font-bold pt-1 flex items-center gap-2 pl-2"><TiWarningOutline size={18} />password must have 1 uppercase, 1 lowercase, 1 number and 1 special character.</small>}
                                           </div>
-                                          <div className="form-control mt-6">
-                                                <button className="btn bg-yellow-600 text-slate-50 hover:bg-yellow-700">Sign Up</button>
+                                          {/* Sign up btn */}
+                                          <div className="form-control mt-4">
+                                                <button type="submit" className="btn bg-yellow-500 text-slate-50 hover:bg-yellow-600">{
+                                                      loading ? <TbFidgetSpinner size={18} className="animate-spin" />
+                                                            : 'Sign Up'}</button>
                                           </div>
                                     </form>
+                                    {/* Social Sign Up */}
                                     <div className="px-8 py-6 text-center">
                                           <p className="font-medium text-yellow-600">Already Registered? <Link to='/signin' className="font-bold text-yellow-600 hover:underline">Go to log in</Link></p>
                                           <p>Or sign up with</p>
@@ -53,10 +134,10 @@ const SignUp = () => {
                                                 <button className="w-8 h-8 rounded-full border-2 border-yellow-700 flex items-center justify-center hover:bg-yellow-600 hover:text-slate-50 transition-all">
                                                       <FaFacebookF />
                                                 </button>
-                                                <button className="w-8 h-8 rounded-full border-2 border-yellow-700 flex items-center justify-center hover:bg-yellow-600 hover:text-slate-50 transition-all">
+                                                <button onClick={handleGoogle} className="w-8 h-8 rounded-full border-2 border-yellow-700 flex items-center justify-center hover:bg-yellow-600 hover:text-slate-50 transition-all">
                                                       <FcGoogle />
                                                 </button>
-                                                <button className="w-8 h-8 rounded-full border-2 border-yellow-700 flex items-center justify-center hover:bg-yellow-600 hover:text-slate-50 transition-all">
+                                                <button onClick={handleGithub} className="w-8 h-8 rounded-full border-2 border-yellow-700 flex items-center justify-center hover:bg-yellow-600 hover:text-slate-50 transition-all">
                                                       <FaGithub />
                                                 </button>
                                           </div>

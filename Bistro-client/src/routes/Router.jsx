@@ -8,6 +8,7 @@ import Contact from "../pages/Contact/Contact";
 import OurMenu from "../pages/OurMenu/OurMenu";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import OurShop from "../pages/OurShop/OurShop";
+import Private from "./Private";
 
 const router = createBrowserRouter([
       {
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
                   },
                   {
                         path: '/dashboard',
-                        element: <Dashboard />
+                        element: <Private><Dashboard /></Private>
                   },
                   {
                         path: '/menu',
