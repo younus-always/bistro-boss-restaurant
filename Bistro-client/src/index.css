@@ -6,6 +6,10 @@ a.active {
   color: #eab308;
 }
 
+dashLink.active{
+  color: #fff;
+}
+
 .react-tabs__tab--selected {
   background: #289ce400 !important;
   border: none !important;

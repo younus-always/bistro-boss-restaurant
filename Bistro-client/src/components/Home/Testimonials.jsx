@@ -20,7 +20,7 @@ const Testimonials = () => {
 
       return (
             <section className="w-11/12 max-w-7xl mx-auto py-10">
-                  <SectionTitle subHeading={"---What Our Clients Says---"} heading={"testimonials"} />
+                  <SectionTitle subHeading={"What Our Clients Says"} heading={"testimonials"} />
                   <Swiper
                         pagination={{
                               type: 'fraction',

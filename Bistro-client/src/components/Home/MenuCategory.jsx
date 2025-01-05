@@ -13,7 +13,7 @@ const MenuCategory = () => {
 
       return (
             <section className="w-11/12 max-w-7xl mx-auto pt-4 pb-10">
-                  <SectionTitle subHeading={"---From 11:00am to 10:00pm---"} heading={"order online"} />
+                  <SectionTitle subHeading={"From 11:00 am to 10:00 pm"} heading={"order online"} />
                   <div className="py-5">
                         <Swiper
                               slidesPerView={3}

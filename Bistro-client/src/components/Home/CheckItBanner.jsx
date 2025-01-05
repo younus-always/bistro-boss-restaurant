@@ -6,7 +6,7 @@ const CheckItBanner = () => {
             <section style={{ backgroundImage: `url(${checkItCover})` }} className="bg-cover bg-fixed">
                   <div className="bg-black/70 text-slate-50 pb-20">
                         <div className="w-11/12 max-w-7xl mx-auto py-10">
-                              <SectionTitle subHeading={"---Check It Out---"} heading={"from our menu"} />
+                              <SectionTitle subHeading={"Check It Out"} heading={"from our menu"} />
                         </div>
 
                         <div className="w-11/12 max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">

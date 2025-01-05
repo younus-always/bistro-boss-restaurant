@@ -31,7 +31,7 @@ const OurMenu = () => {
                   <Navber />
                   <Banner />
                   <div className="w-11/12 max-w-7xl mx-auto pt-10">
-                        <SectionTitle subHeading={"---Don't miss---"} heading={"today's offer"} />
+                        <SectionTitle subHeading={"Don't miss"} heading={"today's offer"} />
                   </div>
                   <MenuItems items={offered} category={"salad"} />
                   <Cover image={dessertImg} title={'DESSERTS'} />

@@ -1,10 +1,14 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import cart from "../assets/icon/cart.png";
+import { Link, NavLink, useNavigate, useNavigation, useNavigationType } from "react-router-dom";
+import cartImg from "../assets/icon/cart.png";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import useCart from "../hooks/useCart";
 
 const Navber = () => {
       const { user, logOut } = useContext(AuthContext);
+      const [cart] = useCart();
+
+      const navigate = useNavigate();
 
       const menuList =
             <>
@@ -33,7 +37,7 @@ const Navber = () => {
                   <li><NavLink to="/contact" className="hover:text-yellow-500 text-slate-50">
                         Contact Us
                   </NavLink></li>
-                  <li><NavLink to='/dashboard' className="hover:text-yellow-500 text-slate-50">
+                  <li><NavLink to='/' className="hover:text-yellow-500 text-slate-50">
                         Dashboard
                   </NavLink></li>
                   <li><NavLink to="/menu" className="hover:text-yellow-500 text-slate-50">
@@ -83,9 +87,10 @@ const Navber = () => {
                                           </ul>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                          <button className="relative">
-                                                <img src={cart} alt="shopping-cart" className="w-12 " />
-                                                <span className="absolute bg-red-500 text-slate-50 font-medium bottom-1 right-[3px] rounded-full w-4 h-4 flex items-center justify-center text-xs p-2">0</span>
+                                          {/* cart icon button */}
+                                          <button onClick={() => navigate('/dashboard/cart')} className="relative">
+                                                <img src={cartImg} alt="shopping-cart" className="w-12 " />
+                                                <span className="absolute bg-red-500 text-slate-50 font-medium bottom-1 right-[3px] rounded-full w-4 h-4 flex items-center justify-center text-xs p-2">{cart.length}</span>
                                           </button>
                                           <div>
                                                 {user && user?.email

@@ -9,7 +9,7 @@ const CheckIt = () => {
 
       return (
             <section className="w-11/12 max-w-7xl mx-auto py-10">
-                  <SectionTitle subHeading={"---Check It Out---"} heading={"from our menu"} />
+                  <SectionTitle subHeading={"Check It Out"} heading={"from our menu"} />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-6">
                         {
                               popularMenu.map(p => <div key={p._id}

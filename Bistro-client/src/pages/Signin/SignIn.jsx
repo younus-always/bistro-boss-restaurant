@@ -17,6 +17,8 @@ const SignIn = () => {
       const location = useLocation();
       const navigate = useNavigate();
 
+      // console.log(location)
+
       useEffect(() => {
             loadCaptchaEnginge(6);
       }, []);

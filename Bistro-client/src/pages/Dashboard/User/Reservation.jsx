@@ -1,11 +1,14 @@
-import { CgPhone } from "react-icons/cg"
-import SectionTitle from "../SectionTitle/SectionTitle"
-import { FaLocationDot } from "react-icons/fa6"
-import { MdOutlineWatchLater } from "react-icons/md"
+import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import { CgPhone } from "react-icons/cg";
+import { FaLocationDot } from "react-icons/fa6";
+import { MdOutlineWatchLater } from "react-icons/md";
+import useTitle from "../../../hooks/useTitle";
 
-const Location = () => {
+const Reservation = () => {
+      useTitle("Reservation");
+      
       return (
-            <section className="w-11/12 max-w-7xl mx-auto py-10">
+            <section>
                   <SectionTitle subHeading={"Visit Us"} heading={"our location"} />
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-6">
                         <div className="border">
@@ -41,4 +44,4 @@ const Location = () => {
       )
 }
 
-export default Location
+export default Reservation

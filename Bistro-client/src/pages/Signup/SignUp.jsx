@@ -10,44 +10,69 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-toastify";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { RiEyeCloseFill } from "react-icons/ri";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
       useTitle("Sign Up");
-      const { setUser, signUp, updateUserProfile, googleLogin, githubLogin, loading } = useContext(AuthContext);
+      const { user,setUser, signUp, updateUserProfile, googleLogin, githubLogin, logOut, loading } = useContext(AuthContext);
+      const axiosPublic = useAxiosPublic();
       const [showPassword, setShowPassword] = useState(false);
       const navigate = useNavigate();
       const location = useLocation();
       const { register, handleSubmit, reset, formState: { errors }, } = useForm();
 
-      // Signup 
+      // Signup with email password
       const onSubmit = (data) => {
-            console.log(data)
             signUp(data.email, data.password)
-                  .then(result => {
-                        const userInfo = result.user;
-                        updateUserProfile(userInfo.diplayName, userInfo.photoURL)
+                  .then(res => {
+                        const userInfo = res.user;
+                        updateUserProfile(data.name, userInfo.photoURL)
                               .then(() => {
-                                    toast.success("Registration successful! Log in now to access your account.")
-                              });
-                        setTimeout(() => {
-                              navigate('/signIn')
-                        }, 2000);
+                                    // send user information to the database
+                                    const userDetails = {
+                                          name: data.name,
+                                          email: data.email,
+                                    };
+                                    axiosPublic.post('/users', userDetails)
+                                          .then(res => {
+                                                reset();
+                                                if (res.data.insertedId) {
+                                                      // signUp success message popup
+                                                      toast.success("Registration successful! Log in now to access your account.");
+                                                      setTimeout(() => {
+                                                            logOut();
+                                                            navigate('/signIn')
+                                                      }, 1500);
+                                                }
+                                          })
+                              })
+                              .catch(error => console.log(error));
                   })
-                  .catch(error => {
-                        console.log(error)
-                  })
+                  .catch(error => console.log(error));
       };
+
 
       // Continue with Google
       const handleGoogle = () => {
             googleLogin()
                   .then(result => {
-                        const userDetails = result.user;
-                        setUser(userDetails);
-                        toast.success('Sign Up Successfull');
-                        setTimeout(() => {
-                              navigate(location?.state ? location.state : '/')
-                        }, 2000);
+                        const userInfo = result.user;
+                        setUser(userInfo);
+                        // send user to the database
+                        const userDetails = {
+                              name: userInfo.displayName,
+                              email: userInfo.email
+                        }
+                        axiosPublic.post('/users', userDetails)
+                              .then(res => {
+                                    console.log(res.data)
+                                    if (res.data.insertedId) {
+                                          toast.success('Google Sign Up Successfull');
+                                          setTimeout(() => {
+                                                navigate(location?.state ? location.state : '/')
+                                          }, 1500);
+                                    }
+                              })
                   }).catch(error => {
                         const errorCode = error.code;
                         const errorMessage = error.message;

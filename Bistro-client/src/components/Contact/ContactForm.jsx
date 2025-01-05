@@ -5,7 +5,6 @@ const ContactForm = () => {
 
       const handleMessage = e => {
             e.preventDefault();
-
       }
 
       return (
@@ -16,32 +15,32 @@ const ContactForm = () => {
                         <form onSubmit={handleMessage} className="space-y-2">
                               <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6">
                                     <div className="form-control">
-                                          <label className="label">
+                                          <label htmlFor="name" className="label">
                                                 <span className="label-text">Name*</span>
                                           </label>
-                                          <input type="text" name="name" placeholder="Enter your name" className="input input-bordered" required />
+                                          <input type="text" id="name" name="name" placeholder="Enter your name" className="input input-bordered" required />
                                     </div>
                                     <div className="form-control">
-                                          <label className="label">
+                                          <label htmlFor="email" className="label">
                                                 <span className="label-text">Email*</span>
                                           </label>
-                                          <input type="email" name="email" placeholder="Enter your email" className="input input-bordered" required />
+                                          <input type="email" id="email" name="email" placeholder="Enter your email" className="input input-bordered" required />
                                     </div>
                               </div>
                               <div className="form-control">
-                                    <label className="label">
+                                    <label htmlFor="phone" className="label">
                                           <span className="label-text">Phone*</span>
                                     </label>
-                                    <input type="text" name="name" placeholder="Enter your phone number" className="input input-bordered" required />
+                                    <input type="number" id="phone" name="phone" placeholder="Enter your phone number" className="input input-bordered" required />
                               </div>
                               <div className="form-control">
-                                    <label className="label">
+                                    <label htmlFor="message" className="label">
                                           <span className="label-text">Message*</span>
                                     </label>
-                                    <textarea type="text" name="message" placeholder="Write your message..." className="p-4 rounded-lg outline-none h-40 max-h-52" required></textarea>
+                                    <textarea type="text" id="message" name="message" placeholder="Write your message..." className="p-4 rounded-lg outline-none h-40 max-h-52" required></textarea>
                               </div>
                               <div className="flex items-center justify-center pt-6">
-                                    <button className="flex items-center gap-1 py-2 px-3 bg-gradient-to-r from-yellow-800 to-yellow-600 hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-800 transition-all  text-sm text-slate-50 font-bold">
+                                    <button type="submit" className="flex items-center gap-1 py-2 px-3 bg-gradient-to-r from-yellow-800 to-yellow-600 hover:bg-gradient-to-r hover:from-yellow-600 hover:to-yellow-800 transition-all  text-sm text-slate-50 font-bold">
                                           <span>Send Message</span>
                                           <IoIosPaperPlane className="mt-1" />
                                     </button>
