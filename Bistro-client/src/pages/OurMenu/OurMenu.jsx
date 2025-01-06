@@ -16,13 +16,13 @@ const OurMenu = () => {
       useTitle('Menu')
       const [menu, loading] = useMenu();
       // Filter by category
-      const dessert = menu.filter(m => m.category === "dessert")
-      const salad = menu.filter(m => m.category === "salad")
-      const offered = menu.filter(m => m.category === "offered")
-      const soup = menu.filter(m => m.category === "soup")
-      const pizza = menu.filter(m => m.category === "pizza")
-      const popular = menu.filter(m => m.category === "popular")
-      const drinks = menu.filter(m => m.category === "drinks")
+      const dessert = menu.filter(m => m.category === "dessert");
+      const salad = menu.filter(m => m.category === "salad");
+      const offered = menu.filter(m => m.category === "offered");
+      const soup = menu.filter(m => m.category === "soup");
+      const pizza = menu.filter(m => m.category === "pizza");
+      const popular = menu.filter(m => m.category === "popular");
+      const drinks = menu.filter(m => m.category === "drinks");
 
       if (loading) return <Loading />
 

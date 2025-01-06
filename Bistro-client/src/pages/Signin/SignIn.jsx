@@ -8,16 +8,18 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-toastify";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { RiEyeCloseFill } from "react-icons/ri";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignIn = () => {
       useTitle("Login");
       const { signIn, googleLogin, githubLogin, setUser } = useContext(AuthContext);
+      const axiosPublic = useAxiosPublic();
       const [disabled, setDisabled] = useState(true);
       const [showPassword, setShowPassword] = useState(false);
       const location = useLocation();
       const navigate = useNavigate();
 
-      // console.log(location)
+      console.log(location)
 
       useEffect(() => {
             loadCaptchaEnginge(6);
@@ -41,10 +43,12 @@ const SignIn = () => {
             signIn(email, password)
                   .then(userCredential => {
                         console.log(userCredential.user)
+                        toast.success('Login Successfull');
+                        setTimeout(() => {
+                              navigate(location?.state ? location.state : '/')
+                        }, 2000);
                   })
                   .catch(error => {
-                        const errorCode = error.code;
-                        const errorMessage = error.message;
                         console.log(error)
                   })
       };
@@ -53,27 +57,28 @@ const SignIn = () => {
       const handleGoogle = () => {
             googleLogin()
                   .then(result => {
-                        const userDetails = result.user;
-                        setUser(userDetails);
-                        toast.success('Login Successfull');
-                        setTimeout(() => {
-                              navigate(location?.state ? location.state : '/')
-                        }, 2000);
-                  }).catch(error => {
-                        const errorCode = error.code;
-                        const errorMessage = error.message;
-                        console.log(error)
-                        console.log(errorCode)
-                        console.log(errorMessage)
-                  })
+                        const userInfo = result.user;
+                        // Send user to the database
+                        const userDetails = {
+                              name: userInfo.displayName,
+                              email: userInfo.email
+                        }
+                        axiosPublic.post('/users', userDetails)
+                              .then(res => {
+                                    toast.success('Login Successfull');
+                                    setTimeout(() => {
+                                          navigate(location?.state ? location.state : '/')
+                                    }, 2000);
+                              })
+                  }).catch(error => console.log(error))
       };
+
 
       // Login with Github
       const handleGithub = () => {
             githubLogin()
                   .then(result => {
                         const userDetails = result.user;
-                        setUser(userDetails)
                   }).catch(error => {
                         const errorCode = error.code;
                         const errorMessage = error.message;

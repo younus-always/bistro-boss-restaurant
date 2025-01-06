@@ -8,7 +8,7 @@ import useTitle from "../../hooks/useTitle";
 import useMenu from "../../hooks/useMenu";
 import Loading from "../../components/Loading";
 import OrderTab from "./OrderTab";
-import { useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 
 const OurShop = () => {
       useTitle("Shop");
@@ -38,7 +38,7 @@ const OurShop = () => {
                         <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                               <TabList className="uppercase font-semibold flex items-center justify-center gap-6 text-center">
                                     {
-                                          categories.map((tab, idx) => <Tab key={idx} className="w-fit cursor-pointer">{tab}</Tab>)
+                                          categories.map((tab, idx) => <Tab key={idx} className="w-fit cursor-pointer hover:text-orange-500">{tab}</Tab>)
                                     }
                               </TabList>
                               {/* category card */}

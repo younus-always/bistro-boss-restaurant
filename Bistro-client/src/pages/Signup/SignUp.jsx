@@ -14,7 +14,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
       useTitle("Sign Up");
-      const { user,setUser, signUp, updateUserProfile, googleLogin, githubLogin, logOut, loading } = useContext(AuthContext);
+      const { signUp, updateUserProfile, googleLogin, githubLogin, logOut, loading } = useContext(AuthContext);
       const axiosPublic = useAxiosPublic();
       const [showPassword, setShowPassword] = useState(false);
       const navigate = useNavigate();
@@ -57,7 +57,6 @@ const SignUp = () => {
             googleLogin()
                   .then(result => {
                         const userInfo = result.user;
-                        setUser(userInfo);
                         // send user to the database
                         const userDetails = {
                               name: userInfo.displayName,
@@ -65,13 +64,10 @@ const SignUp = () => {
                         }
                         axiosPublic.post('/users', userDetails)
                               .then(res => {
-                                    console.log(res.data)
-                                    if (res.data.insertedId) {
-                                          toast.success('Google Sign Up Successfull');
-                                          setTimeout(() => {
-                                                navigate(location?.state ? location.state : '/')
-                                          }, 1500);
-                                    }
+                                    toast.success('Google Sign Up Successfull');
+                                    setTimeout(() => {
+                                          navigate(location?.state ? location.state : '/')
+                                    }, 1500);
                               })
                   }).catch(error => {
                         const errorCode = error.code;
@@ -87,7 +83,6 @@ const SignUp = () => {
             githubLogin()
                   .then(result => {
                         const userDetails = result.user;
-                        setUser(userDetails)
                   }).catch(error => {
                         const errorCode = error.code;
                         const errorMessage = error.message;

@@ -1,6 +1,6 @@
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAxionSecure from "../../hooks/useAxiosSecure";
 import useCart from "../../hooks/useCart";
@@ -11,6 +11,7 @@ const MenuCard = ({ item }) => {
       const axiosSecure = useAxionSecure();
       const [, refetch] = useCart();
       const location = useLocation();
+      const navigate = useNavigate();
 
 
       // Add to Cart 
@@ -48,7 +49,7 @@ const MenuCard = ({ item }) => {
                   }).then((result) => {
                         if (result.isConfirmed) {
                               // send the user to the login page
-                              <Navigate to='/signin' state={location.pathname} />
+                              navigate('/signin')
                         }
                   });
             }

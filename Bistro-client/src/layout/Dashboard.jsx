@@ -7,10 +7,11 @@ import { IoHome, IoHomeSharp } from "react-icons/io5";
 import { MdFastfood } from "react-icons/md";
 import { TbStarsFilled } from "react-icons/tb";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
+      const [isAdmin] = useAdmin();
 
-      const isAdmin = true;
       return (
             <>
                   <section className="flex w-full h-screen">
@@ -29,19 +30,19 @@ const Dashboard = () => {
                                                                         className={({ isActive }) => `${isActive ? 'text-slate-50' : ''} flex items-center gap-2 hover:text-slate-50 transition-colors`} ><IoHomeSharp size={22} /> admin home</NavLink>
                                                             </li>
                                                             <li>
-                                                                  <NavLink to='addItem'
+                                                                  <NavLink to='add-item'
                                                                         className={({ isActive }) => `${isActive ? 'text-slate-50' : ''}  flex items-center gap-2 hover:text-slate-50 transition-colors`}> <FaUtensils size={22} />add item</NavLink>
                                                             </li>
                                                             <li>
-                                                                  <NavLink to='manageItems'
+                                                                  <NavLink to='manage-items'
                                                                         className={({ isActive }) => `${isActive ? 'text-slate-50' : ''}  flex items-center gap-2 hover:text-slate-50 transition-colors`}><GrList size={22} />manage items</NavLink>
                                                             </li>
                                                             <li>
-                                                                  <NavLink to='manageBookings'
+                                                                  <NavLink to='manage-bookings'
                                                                         className={({ isActive }) => `${isActive ? 'text-slate-50' : ''}  flex items-center gap-2 hover:text-slate-50 transition-colors`}><FaBook size={22} />manage bookings</NavLink>
                                                             </li>
                                                             <li>
-                                                                  <NavLink to='allUsers'
+                                                                  <NavLink to='users'
                                                                         className={({ isActive }) => `${isActive ? 'text-slate-50' : ''}  flex items-center gap-2 hover:text-slate-50 transition-colors`}><FaUsers size={22} />all users</NavLink>
                                                             </li>
                                                       </>
