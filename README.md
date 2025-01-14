@@ -1,3 +1,3 @@
-### Project Link---------
+# Project Link
 
-**[Bistro Boss](https://bistro-restro.netlify.app "Bistro Boss Live Link")**
+### **[Bistro Boss](https://bistro-restro.netlify.app "Bistro Boss Live Link")**
